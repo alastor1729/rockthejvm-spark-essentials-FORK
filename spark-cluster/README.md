@@ -2,7 +2,9 @@
 
 # General
 
-A simple spark standalone cluster for your testing environment purposses. A *docker-compose up* away from you solution for your spark development environment.
+A simple spark standalone cluster for your testing environment purposes. 
+
+A **docker-compose up** away from you solution for your spark development environment.
 
 The Docker compose will create the following containers:
 
