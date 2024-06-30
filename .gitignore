@@ -103,6 +103,8 @@ project/plugins/project/
 .history
 .cache
 .lib/
+.bsp/
+.bsp/sbt.json
 
 ### Scala ###
 *.class
