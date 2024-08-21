@@ -1,4 +1,4 @@
-package part2dataframes
+package part2_dataframes
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{expr, max, col}
@@ -59,6 +59,8 @@ object Joins extends App {
   // using complex types
   guitaristsDF.join(guitarsDF.withColumnRenamed("id", "guitarId"), expr("array_contains(guitars, guitarId)"))
 
+
+
   /**
     * Exercises
     *
@@ -103,5 +105,6 @@ object Joins extends App {
   val bestPaidJobsDF = bestPaidEmployeesDF.join(mostRecentJobTitlesDF, "emp_no")
 
   bestPaidJobsDF.show()
+
 }
 

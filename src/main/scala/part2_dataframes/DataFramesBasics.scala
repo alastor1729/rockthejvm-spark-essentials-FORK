@@ -1,4 +1,5 @@
-package part2dataframes
+package part2_dataframes
+
 
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types._
@@ -28,17 +29,21 @@ object DataFramesBasics extends App {
   val longType = LongType
 
   // schema
-  val carsSchema = StructType(Array(
-    StructField("Name", StringType),
-    StructField("Miles_per_Gallon", DoubleType),
-    StructField("Cylinders", LongType),
-    StructField("Displacement", DoubleType),
-    StructField("Horsepower", LongType),
-    StructField("Weight_in_lbs", LongType),
-    StructField("Acceleration", DoubleType),
-    StructField("Year", StringType),
-    StructField("Origin", StringType)
-  ))
+  val carsSchema =
+    StructType(
+      Array(
+        StructField("Name", StringType),
+        StructField("Miles_per_Gallon", DoubleType),
+        StructField("Cylinders", LongType),
+        StructField("Displacement", DoubleType),
+        StructField("Horsepower", LongType),
+        StructField("Weight_in_lbs", LongType),
+        StructField("Acceleration", DoubleType),
+        StructField("Year", StringType),
+        StructField("Origin", StringType)
+      )
+    )
+
 
   // obtain a schema
   val carsDFSchema = firstDF.schema
@@ -104,4 +109,5 @@ object DataFramesBasics extends App {
     .load("src/main/resources/data/movies.json")
   moviesDF.printSchema()
   println(s"The Movies DF has ${moviesDF.count()} rows")
+
 }

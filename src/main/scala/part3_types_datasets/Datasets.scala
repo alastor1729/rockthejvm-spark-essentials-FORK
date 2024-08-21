@@ -1,6 +1,5 @@
-package part3typesdatasets
+package part3_types_datasets
 
-import java.sql.Date
 
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, SparkSession}
 import org.apache.spark.sql.functions._
@@ -92,12 +91,16 @@ object Datasets extends App {
 
   /**
     * Exercise: join the guitarsDS and guitarPlayersDS, in an outer join
-    * (hint: use array_contains)
     */
 
   guitarPlayersDS
-    .joinWith(guitarsDS, array_contains(guitarPlayersDS.col("guitars"), guitarsDS.col("id")), "outer")
-    .show()
+    .joinWith(
+      guitarsDS,
+      array_contains(guitarPlayersDS.col("guitars"),
+        guitarsDS.col("id")),
+      "outer"
+    ).show()
+
 
   // Grouping DS
 
@@ -106,6 +109,9 @@ object Datasets extends App {
     .count()
     .show()
 
-  // joins and groups are WIDE transformations, will involve SHUFFLE operations
+  /* NOTE:
+       joins and groups are WIDE transformations, will involve SHUFFLE operations
+   */
 
 }
+
