@@ -1,6 +1,6 @@
 name := "spark-essentials-rock-the-jvm-fork"
 
-version := "0.3.2"
+version := "0.3.3"
 
 scalaVersion := "2.13.12"
 

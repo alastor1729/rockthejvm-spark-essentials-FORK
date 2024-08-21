@@ -3,12 +3,14 @@ package part2_dataframes
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-object Aggregations extends App {
+object c__Aggregations extends App {
+
 
   val spark = SparkSession.builder()
     .appName("Aggregations and Grouping")
     .config("spark.master", "local")
     .getOrCreate()
+
 
   val moviesDF = spark.read
     .option("inferSchema", "true")
@@ -64,36 +66,5 @@ object Aggregations extends App {
     )
     .orderBy(col("Avg_Rating"))
 
-
-  /**
-    * Exercises
-    *
-    * 1. Sum up ALL the profits of ALL the movies in the DF
-    * 2. Count how many distinct directors we have
-    * 3. Compute the average IMDB rating and the average US gross revenue PER DIRECTOR
-    */
-
-
-  // 1
-  moviesDF
-    .select((col("US_Gross") + col("Worldwide_Gross") + col("US_DVD_Sales")).as("Total_Gross"))
-    .select(sum("Total_Gross"))
-    .show()
-
-  // 2
-  moviesDF
-    .select(countDistinct(col("Director")))
-    .show()
-
-
-  // 3
-  moviesDF
-    .groupBy("Director")
-    .agg(
-      avg("IMDB_Rating").as("Avg_Rating"),
-      sum("US_Gross").as("Total_US_Gross")
-    )
-    .orderBy(col("Avg_Rating").desc_nulls_last)
-    .show()
-
 }
+

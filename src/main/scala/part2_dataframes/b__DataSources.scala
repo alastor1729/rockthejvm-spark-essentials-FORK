@@ -1,26 +1,32 @@
 package part2_dataframes
 
+
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types._
 
-object DataSources extends App {
+object b__DataSources extends App {
+
 
   val spark = SparkSession.builder()
     .appName("Data Sources and Formats")
     .config("spark.master", "local")
     .getOrCreate()
 
-  val carsSchema = StructType(Array(
-    StructField("Name", StringType),
-    StructField("Miles_per_Gallon", DoubleType),
-    StructField("Cylinders", LongType),
-    StructField("Displacement", DoubleType),
-    StructField("Horsepower", LongType),
-    StructField("Weight_in_lbs", LongType),
-    StructField("Acceleration", DoubleType),
-    StructField("Year", DateType),
-    StructField("Origin", StringType)
-  ))
+
+  val carsSchema = StructType(
+    Array(
+      StructField("Name", StringType),
+      StructField("Miles_per_Gallon", DoubleType),
+      StructField("Cylinders", LongType),
+      StructField("Displacement", DoubleType),
+      StructField("Horsepower", LongType),
+      StructField("Weight_in_lbs", LongType),
+      StructField("Acceleration", DoubleType),
+      StructField("Year", DateType),
+      StructField("Origin", StringType)
+    )
+  )
+
 
   /*
     Reading a DF:
@@ -31,10 +37,11 @@ object DataSources extends App {
    */
   val carsDF = spark.read
     .format("json")
-    .schema(carsSchema) // enforce a schema
-    .option("mode", "failFast") // dropMalformed, permissive (default)
+    .schema(carsSchema)          // enforce a schema
+    .option("mode", "failFast")  // dropMalformed, permissive (default)
     .option("path", "src/main/resources/data/cars.json")
     .load()
+
 
   // alternative reading with options map
   val carsDFWithOptionMap = spark.read
@@ -45,6 +52,7 @@ object DataSources extends App {
       "inferSchema" -> "true"
     ))
     .load()
+
 
   /*
    Writing DFs
@@ -58,7 +66,8 @@ object DataSources extends App {
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/data/cars_dupe.json")
 
-  // JSON flags
+
+  // JSON flags && spark.read:
   spark.read
     .schema(carsSchema)
     .option("dateFormat", "yyyy-MM-dd") // couple with schema; if Spark fails parsing, it will put null
@@ -66,7 +75,8 @@ object DataSources extends App {
     .option("compression", "uncompressed") // bzip2, gzip, lz4, snappy, deflate
     .json("src/main/resources/data/cars.json")
 
-  // CSV flags
+
+  // CSV flags && spark.read:
   val stocksSchema = StructType(Array(
     StructField("symbol", StringType),
     StructField("date", DateType),
@@ -81,15 +91,19 @@ object DataSources extends App {
     .option("nullValue", "")
     .csv("src/main/resources/data/stocks.csv")
 
+
   // Parquet
   carsDF.write
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/data/cars.parquet")
 
+
   // Text files
   spark.read.text("src/main/resources/data/sampleTextFile.txt").show()
 
-  // Reading from a remote DB
+
+
+  // [Last Example] Reading from a remote PostgreSql Database:
   val driver = "org.postgresql.Driver"
   val url = "jdbc:postgresql://localhost:5432/rtjvm"
   val user = "docker"

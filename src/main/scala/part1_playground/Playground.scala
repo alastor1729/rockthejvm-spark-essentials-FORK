@@ -8,10 +8,12 @@ import org.apache.spark.sql.types._
 /**
   * This is a small application that loads some manually inserted rows into a Spark DataFrame.
   *
+  *
   * Feel free to modify this code as you see fit,
   * fiddle with the code and play with your own exercises, ideas and datasets.
   *
-  * Daniel @ Rock the JVM <== Author
+  *
+  * Daniel @ Rock the JVM <== Author~~~~~~~~~~
   */
 object Playground extends App {
 
@@ -29,6 +31,12 @@ object Playground extends App {
   /**
     * The SparkContext (usually denoted `sc` in code) is the entry point for low-level Spark APIs,
     * including access to Resilient Distributed Datasets (RDDs).
+    *
+    * NOTES:
+        * SparkContext is the main entry point for Spark functionality.
+        *
+        * A SparkContext represents the connection to a Spark cluster,
+        * and can be used to create RDDs, accumulators, and broadcast variables on that cluster.
     */
   val sc = spark.sparkContext
 
@@ -36,17 +44,19 @@ object Playground extends App {
   /**
     * A Spark schema structure that describes a small cars DataFrame.
     */
-  val carsSchema = StructType(Array(
-    StructField("Name", StringType),
-    StructField("Miles_per_Gallon", DoubleType),
-    StructField("Cylinders", LongType),
-    StructField("Displacement", DoubleType),
-    StructField("Horsepower", LongType),
-    StructField("Weight_in_lbs", LongType),
-    StructField("Acceleration", DoubleType),
-    StructField("Year", StringType),
-    StructField("Origin", StringType)
-  ))
+  val carsSchema = StructType(
+    Array(
+      StructField("Name", StringType),
+      StructField("Miles_per_Gallon", DoubleType),
+      StructField("Cylinders", LongType),
+      StructField("Displacement", DoubleType),
+      StructField("Horsepower", LongType),
+      StructField("Weight_in_lbs", LongType),
+      StructField("Acceleration", DoubleType),
+      StructField("Year", StringType),
+      StructField("Origin", StringType)
+      )
+  )
 
 
   /**
@@ -69,15 +79,17 @@ object Playground extends App {
 
   /**
     * The two lines below create an RDD of rows (think of an RDD like a parallel collection).
-    * Then from the RDD we create a DataFrame, which has a number of useful querying methods.
+    *
+    * Then from the RDD we create a DataFrame,
+    * which has a number of useful querying methods.
     */
-  val carsRows = sc.parallelize(cars)
-  val carsDF = spark.createDataFrame(carsRows, carsSchema)
+  val carsRows = sc.parallelize(cars) // parallelize "distribute a local Scala collection to form an RDD"; method under SparkContext
+  val carsDF =   spark.createDataFrame(carsRows, carsSchema)
 
 
   /**
     * If the schema and the contents of the DataFrame are printed correctly to the console,
-    * this means the libraries work correctly and you can jump into the course!
+    * this means the libraries work correctly and your local-IDE is set up correctly~~~~~~~~
     */
   carsDF.printSchema()
   carsDF.show()
